@@ -42,7 +42,17 @@ fi
 echo "[$DATE] 커밋 완료" >> "$LOG_FILE"
 
 # 5. Git push
-git push >> "$LOG_FILE" 2>&1
+# Upstream 브랜치가 설정되어 있는지 확인
+CURRENT_BRANCH=$(git branch --show-current)
+UPSTREAM=$(git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null)
+
+if [ -z "$UPSTREAM" ]; then
+    # Upstream 미설정 시 -u 플래그 사용
+    git push -u origin "$CURRENT_BRANCH" >> "$LOG_FILE" 2>&1
+else
+    # Upstream 설정되어 있으면 일반 push
+    git push >> "$LOG_FILE" 2>&1
+fi
 
 if [ $? -ne 0 ]; then
     echo "[$DATE] 푸시 실패" >> "$LOG_FILE"
