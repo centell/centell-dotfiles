@@ -1,0 +1,16 @@
+# 민감한 정보
+configs/*-token.json
+configs/*-credentials.json
+configs/*oauth*.json
+
+# 임시 파일
+*.tmp
+*.log
+.DS_Store
+
+# 에디터
+.vscode/
+.idea/
+
+# 개인 노트 (선택사항)
+# NOTES.md

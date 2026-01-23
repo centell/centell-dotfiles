@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find:*)",
+      "Bash(docker system:*)",
+      "Bash(sudo du:*)",
+      "Bash(tmutil listlocalsnapshots:*)",
+      "Bash(rm:*)",
+      "Bash(npm cache verify:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
