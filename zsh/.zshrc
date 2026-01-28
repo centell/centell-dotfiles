@@ -135,3 +135,4 @@ export GEMINI_API_KEY=AIzaSyBUH89cyPYNafbnG8u3kBSBbytthR-8c70
 export ANDROID_HOME=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:$ANDROID_HOME/tools
+export PATH="$HOME/.local/bin:$PATH"
