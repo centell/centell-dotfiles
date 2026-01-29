@@ -1,0 +1,3 @@
+[submodule "agents/personas"]
+	path = agents/personas
+	url = git@github.com-centell:centell/centell-personas.git
