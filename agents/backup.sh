@@ -2,7 +2,7 @@
 set -e
 
 echo "╔════════════════════════════════════════════════════════╗"
-echo "║  AI Agent Skills - 백업 스크립트                      ║"
+echo "║  AI Agent - 백업 스크립트                             ║"
 echo "╚════════════════════════════════════════════════════════╝"
 echo ""
 
@@ -10,15 +10,25 @@ GREEN='\033[0;32m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-# 1. 글로벌 스킬 백업
-echo -e "${BLUE}[1/2] 글로벌 스킬 백업...${NC}"
-if [ -d ~/.agents/skills ]; then
-    mkdir -p global-skills
-    cp -r ~/.agents/skills/* global-skills/
-    echo -e "${GREEN}✓ 글로벌 스킬 백업 완료${NC}"
-    ls global-skills/
+# 1. ~/.agents 내용 백업
+echo -e "${BLUE}[1/2] ~/.agents 백업...${NC}"
+if [ -d ~/.agents ]; then
+    # skills 백업
+    if [ -d ~/.agents/skills ]; then
+        mkdir -p skills
+        rsync -a --delete ~/.agents/skills/ skills/
+        echo -e "${GREEN}✓ skills 백업 완료${NC}"
+    fi
+    # rules 백업
+    if [ -d ~/.agents/rules ]; then
+        mkdir -p rules
+        rsync -a --delete ~/.agents/rules/ rules/
+        echo -e "${GREEN}✓ rules 백업 완료${NC}"
+    fi
+    echo "  백업된 항목:"
+    ls -1d skills rules 2>/dev/null | sed 's/^/    - /'
 else
-    echo "⚠ ~/.agents/skills/ 가 없습니다"
+    echo "⚠ ~/.agents/ 가 없습니다"
 fi
 echo ""
 
@@ -48,11 +58,12 @@ echo "║  ✨ 백업 완료!                                        ║"
 echo "╚════════════════════════════════════════════════════════╝"
 echo ""
 echo "백업된 파일:"
-echo "  - global-skills/"
+echo "  - skills/   (~/.agents/skills)"
+echo "  - rules/    (~/.agents/rules)"
 echo "  - configs/"
 echo ""
 echo "Git 커밋 추천:"
 echo "  git add ."
-echo "  git commit -m 'Update AI agent skills backup'"
+echo "  git commit -m 'Update AI agent backup'"
 echo "  git push"
 echo ""

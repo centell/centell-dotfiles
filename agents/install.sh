@@ -2,7 +2,7 @@
 set -e
 
 echo "╔════════════════════════════════════════════════════════╗"
-echo "║  AI Agent Skills - 설치 스크립트                      ║"
+echo "║  AI Agent - 설치 스크립트                             ║"
 echo "╚════════════════════════════════════════════════════════╝"
 echo ""
 
@@ -12,25 +12,27 @@ BLUE='\033[0;34m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
-# 1. 글로벌 스킬 디렉토리 생성
-echo -e "${BLUE}[1/5] 글로벌 스킬 디렉토리 생성...${NC}"
-mkdir -p ~/.agents/skills
-echo -e "${GREEN}✓ ~/.agents/skills/ 생성 완료${NC}"
-echo ""
+# 1. ~/.agents 복원
+echo -e "${BLUE}[1/4] ~/.agents 복원...${NC}"
+mkdir -p ~/.agents/skills ~/.agents/rules
 
-# 2. 글로벌 스킬 복사
-echo -e "${BLUE}[2/5] 글로벌 스킬 복사...${NC}"
-if [ -d "global-skills" ]; then
-    cp -r global-skills/* ~/.agents/skills/
-    echo -e "${GREEN}✓ 글로벌 스킬 복사 완료${NC}"
-    ls ~/.agents/skills/
+if [ -d "skills" ]; then
+    rsync -a skills/ ~/.agents/skills/
+    echo -e "${GREEN}✓ skills 복원 완료${NC}"
 else
-    echo -e "${YELLOW}⚠ global-skills/ 디렉토리가 없습니다${NC}"
+    echo -e "${YELLOW}⚠ skills/ 디렉토리가 없습니다${NC}"
+fi
+
+if [ -d "rules" ]; then
+    rsync -a rules/ ~/.agents/rules/
+    echo -e "${GREEN}✓ rules 복원 완료${NC}"
+else
+    echo -e "${YELLOW}⚠ rules/ 디렉토리가 없습니다${NC}"
 fi
 echo ""
 
-# 3. 설정 파일 복사
-echo -e "${BLUE}[3/5] 설정 파일 복사...${NC}"
+# 2. 설정 파일 복사
+echo -e "${BLUE}[2/4] 설정 파일 복사...${NC}"
 mkdir -p ~/.claude ~/.cursor ~/.gemini ~/.opencode
 
 if [ -f "configs/claude-settings.local.json" ]; then
@@ -39,8 +41,8 @@ if [ -f "configs/claude-settings.local.json" ]; then
 fi
 echo ""
 
-# 4. 에이전트 스킬 디렉토리 생성
-echo -e "${BLUE}[4/5] 에이전트 스킬 디렉토리 생성...${NC}"
+# 3. 에이전트 스킬 디렉토리 생성
+echo -e "${BLUE}[3/4] 에이전트 스킬 디렉토리 생성...${NC}"
 mkdir -p ~/.claude/skills
 mkdir -p ~/.cursor/skills
 mkdir -p ~/.gemini/skills
@@ -48,8 +50,8 @@ mkdir -p ~/.opencode/skills
 echo -e "${GREEN}✓ 에이전트 디렉토리 생성 완료${NC}"
 echo ""
 
-# 5. 심볼릭 링크 생성
-echo -e "${BLUE}[5/5] 심볼릭 링크 생성...${NC}"
+# 4. 심볼릭 링크 생성
+echo -e "${BLUE}[4/4] 심볼릭 링크 생성...${NC}"
 for skill in ~/.agents/skills/*/; do
     skill_name=$(basename "$skill")
 
