@@ -136,6 +136,3 @@ export ANDROID_HOME=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH="$HOME/.local/bin:$PATH"
-
-# Personas backup alias
-alias backup-personas='cd ~/centell-dotfiles/agents/personas && git add . && git commit -m "Backup personas" && git push && cd ~/centell-dotfiles && git add agents/personas && git commit -m "Update personas ref" && git push && cd - && echo "✓ Personas 백업 완료"'

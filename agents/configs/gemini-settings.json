@@ -1,10 +1,14 @@
 {
+  "project": {
+    "warnOnRunningInHomeDirectory": false
+  },
+  "ui": {
+    "theme": "Default",
+    "showHomeDirectoryWarning": false
+  },
   "security": {
     "auth": {
       "selectedType": "oauth-personal"
     }
-  },
-  "ui": {
-    "theme": "Default"
   }
 }
