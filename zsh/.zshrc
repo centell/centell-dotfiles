@@ -126,10 +126,6 @@ export PATH="$HOME/.jenv/bin:$PATH"
 eval "$(jenv init -)"
 
 
-# AI API KEY
-# Gemini
-export GEMINI_API_KEY=AIzaSyBUH89cyPYNafbnG8u3kBSBbytthR-8c70
-
 
 # Android SDK
 export ANDROID_HOME=$HOME/Library/Android/sdk

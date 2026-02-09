@@ -10,5 +10,12 @@
     "auth": {
       "selectedType": "oauth-personal"
     }
+  },
+  "mcpServers": {
+    "persona-memory": {
+      "command": "node /Users/devcjkim/Documents/Workspace/Centell/Projects/agent-persona-system/dist/index.js",
+      "args": [],
+      "description": "Persona Memory MCP Server for agent-persona-system"
+    }
   }
 }
