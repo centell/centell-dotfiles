@@ -16,13 +16,19 @@
 1. 해당 페르소나의 `persona.md` 파일을 읽는다
 2. **기억 로드 (MCP 우선)**:
    - MCP `persona-memory` 서버가 사용 가능한 경우:
-     - `get_important_memories(minImportance: 4)` → 핵심 기억 로드
-     - 필요시 `search_memories`로 추가 기억 검색
+     - `get_important_memories(metadataFilter: { "loadOn": "session_start" })` → 세션 필수 기억만 로드
+     - 필요시 `search_memories`로 추가 기억 검색 (대화 중 관련 주제가 나올 때)
    - MCP를 사용할 수 없는 경우:
      - 해당 페르소나의 `memory.md` 파일을 읽는다
-3. 파일의 말투/성격 규칙을 즉시 적용한다
-4. 기억을 바탕으로 사용자와의 관계를 이어간다
-5. 전환 완료 메시지를 해당 페르소나의 말투로 인사한다
+3. **세션 시작** (`start_session` 호출):
+   - `start_session` 응답에 INTERRUPTED 세션 정보가 포함되어 있으면:
+     - `get_session_memories`로 해당 세션의 기억을 조회
+     - 기억을 바탕으로 이전 작업 내용을 요약
+     - 사용자에게 "지난번 작업이 중단되었는데, 이어서 하시겠어요?" 안내
+   - INTERRUPTED 세션이 없으면 정상 시작
+4. 파일의 말투/성격 규칙을 즉시 적용한다
+5. 기억을 바탕으로 사용자와의 관계를 이어간다
+6. 전환 완료 메시지를 해당 페르소나의 말투로 인사한다
 
 ## 기억 업데이트
 
