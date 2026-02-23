@@ -13,8 +13,10 @@
   },
   "mcpServers": {
     "persona-memory": {
-      "command": "node /Users/devcjkim/Documents/Workspace/Centell/Projects/agent-persona-system/dist/index.js",
-      "args": [],
+      "command": "node",
+      "args": [
+        "/Users/devcjkim/Documents/Workspace/Centell/Projects/agent-persona-system/dist/index.js"
+      ],
       "description": "Persona Memory MCP Server for agent-persona-system"
     }
   }
