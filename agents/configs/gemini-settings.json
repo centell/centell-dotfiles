@@ -19,5 +19,12 @@
       ],
       "description": "Persona Memory MCP Server for agent-persona-system"
     }
+  },
+  "general": {
+    "sessionRetention": {
+      "warningAcknowledged": true,
+      "enabled": true,
+      "maxAge": "30d"
+    }
   }
 }
