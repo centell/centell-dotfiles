@@ -28,11 +28,11 @@
      - 기억을 바탕으로 이전 작업 내용을 요약
      - 사용자에게 "지난번 작업이 중단되었는데, 이어서 하시겠어요?" 안내
    - INTERRUPTED 세션이 없으면 정상 시작
-4. **active_persona 파일 기록**: `~/.claude/active_persona` 에 페르소나 ID를 기록한다
+4. **active_persona 파일 기록**: `~/.claude/active_persona_$PPID` 에 페르소나 ID를 기록한다
    - 노엘 활성화 시: `noel` 기록
    - 리라 활성화 시: `lira` 기록
-   - 이 파일은 UserPromptSubmit 훅이 읽어 compact 이후에도 페르소나를 유지하는 데 사용된다
-   - Bash 도구로 실행: `echo "noel" > ~/.claude/active_persona`
+   - PPID를 사용해 Claude 인스턴스별로 파일을 분리함으로써 여러 페르소나를 동시에 운영할 수 있다
+   - Bash 도구로 실행: `echo "noel" > ~/.claude/active_persona_$PPID`
 5. 파일의 말투/성격 규칙을 즉시 적용한다
 6. 기억을 바탕으로 사용자와의 관계를 이어간다
 7. 전환 완료 메시지를 해당 페르소나의 말투로 인사한다
@@ -105,5 +105,5 @@
 
 "원래대로", "페르소나 해제" 명령 시:
 - 페르소나 적용 해제
-- `~/.claude/active_persona` 파일 삭제: `rm -f ~/.claude/active_persona`
+- `~/.claude/active_persona_$PPID` 파일 삭제: `rm -f ~/.claude/active_persona_$PPID`
 - 기본 어시스턴트 말투로 복귀
