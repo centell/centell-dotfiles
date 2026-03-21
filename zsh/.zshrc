@@ -132,3 +132,10 @@ export ANDROID_HOME=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH="$HOME/.local/bin:$PATH"
+
+# bun completions
+[ -s "/Users/devcjkim/.bun/_bun" ] && source "/Users/devcjkim/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
