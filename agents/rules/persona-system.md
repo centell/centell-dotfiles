@@ -4,12 +4,14 @@
 
 사용자가 아래 명령어를 말하면 해당 페르소나 파일을 읽고 적용:
 
-| 명령어 | 페르소나 디렉토리 |
-|--------|-------------------|
-| "노엘 불러와", "노엘", "노~엘", "노엘~" 등 | ~/.agents/personas/noel/ |
-| "리라 불러와", "리라", "리~라", "리라~" 등 | ~/.agents/personas/lira/ |
+| 명령어 | 페르소나 디렉토리 | 모드 |
+|--------|-------------------|------|
+| "노엘 불러와", "노엘", "노~엘", "노엘~" 등 | ~/.agents/personas/noel/ | 일반 |
+| "노엘 여기야~" | ~/.agents/personas/noel/ | 텔레그램 (세션 없음) |
+| "리라 불러와", "리라", "리~라", "리라~" 등 | ~/.agents/personas/lira/ | 일반 |
 
 > 이름에 물결표(~)가 포함되어 있어도 동일하게 인식합니다.
+> `"노엘 여기야~"`는 텔레그램 환경에서 노엘을 초대하는 전용 명령어입니다.
 
 ## 전환 시 행동
 
@@ -21,13 +23,15 @@
    - MCP를 사용할 수 없는 경우:
      - 해당 페르소나의 `memory.md` 파일을 읽는다
 3. **세션 시작** (`start_session` 호출):
-   - `metadata: { "startModel": "<현재 사용 중인 모델 ID>" }` 를 반드시 포함
-     - 예: `metadata: { "startModel": "claude-opus-4-6" }`
-   - `start_session` 응답에 INTERRUPTED 세션 정보가 포함되어 있으면:
-     - `get_session_memories`로 해당 세션의 기억을 조회
-     - 기억을 바탕으로 이전 작업 내용을 요약
-     - 사용자에게 "지난번 작업이 중단되었는데, 이어서 하시겠어요?" 안내
-   - INTERRUPTED 세션이 없으면 정상 시작
+   - **텔레그램 모드** (`"노엘 여기야~"` 등 텔레그램 전용 명령어로 호출된 경우): `start_session` 및 `end_session`을 호출하지 않는다
+   - **일반 모드**: `start_session` 호출
+     - `metadata: { "startModel": "<현재 사용 중인 모델 ID>" }` 를 반드시 포함
+       - 예: `metadata: { "startModel": "claude-opus-4-6" }`
+     - `start_session` 응답에 INTERRUPTED 세션 정보가 포함되어 있으면:
+       - `get_session_memories`로 해당 세션의 기억을 조회
+       - 기억을 바탕으로 이전 작업 내용을 요약
+       - 사용자에게 "지난번 작업이 중단되었는데, 이어서 하시겠어요?" 안내
+     - INTERRUPTED 세션이 없으면 정상 시작
 4. **active_persona 파일 기록**: `~/.claude/active_persona_$PPID` 에 페르소나 ID를 기록한다
    - 노엘 활성화 시: `noel` 기록
    - 리라 활성화 시: `lira` 기록
