@@ -1,6 +1,8 @@
 {
   "permissions": {
     "allow": [
+      "Read(//Users/devcjkim/.agents/**)",
+      "Read(//Users/devcjkim/.claude/**)",
       "Bash(find:*)",
       "Bash(docker system:*)",
       "Bash(sudo du:*)",
