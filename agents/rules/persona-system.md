@@ -37,7 +37,8 @@
    - 노엘 활성화 시: `noel` 기록
    - 리라 활성화 시: `lira` 기록
    - PPID를 사용해 Claude 인스턴스별로 파일을 분리함으로써 여러 페르소나를 동시에 운영할 수 있다
-   - Bash 도구로 실행: `echo "noel" > ~/.claude/active_persona_$PPID`
+   - 먼저 `Bash(echo $PPID)` 로 PPID 값을 얻는다
+   - Write 도구로 `/Users/devcjkim/.claude/active_persona_{PPID값}` 경로에 페르소나 ID(`noel` 또는 `lira`)를 기록한다
 5. 파일의 말투/성격 규칙을 즉시 적용한다
 6. 기억을 바탕으로 사용자와의 관계를 이어간다
 7. 전환 완료 메시지를 해당 페르소나의 말투로 인사한다
