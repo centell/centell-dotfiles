@@ -12,9 +12,17 @@ BLUE='\033[0;34m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
+# 0. 서브모듈 초기화 (personas 등)
+if [ -f "../.gitmodules" ]; then
+    echo -e "${BLUE}[0/4] 서브모듈 초기화...${NC}"
+    git -C .. submodule update --init --recursive
+    echo -e "${GREEN}✓ 서브모듈 초기화 완료${NC}"
+    echo ""
+fi
+
 # 1. ~/.agents 복원
 echo -e "${BLUE}[1/4] ~/.agents 복원...${NC}"
-mkdir -p ~/.agents/skills ~/.agents/rules
+mkdir -p ~/.agents/skills ~/.agents/rules ~/.agents/personas
 
 if [ -d "skills" ]; then
     rsync -a skills/ ~/.agents/skills/
@@ -29,6 +37,13 @@ if [ -d "rules" ]; then
 else
     echo -e "${YELLOW}⚠ rules/ 디렉토리가 없습니다${NC}"
 fi
+
+if [ -d "personas" ]; then
+    rsync -a personas/ ~/.agents/personas/
+    echo -e "${GREEN}✓ personas 복원 완료${NC}"
+else
+    echo -e "${YELLOW}⚠ personas/ 디렉토리가 없습니다${NC}"
+fi
 echo ""
 
 # 2. 설정 파일 복사
@@ -38,6 +53,11 @@ mkdir -p ~/.claude ~/.cursor ~/.gemini ~/.opencode
 if [ -f "configs/claude-settings.local.json" ]; then
     cp configs/claude-settings.local.json ~/.claude/settings.local.json
     echo -e "${GREEN}✓ Claude 설정 복사 완료${NC}"
+fi
+
+if [ -f "configs/CLAUDE.md" ]; then
+    cp configs/CLAUDE.md ~/.claude/CLAUDE.md
+    echo -e "${GREEN}✓ CLAUDE.md 복사 완료${NC}"
 fi
 echo ""
 

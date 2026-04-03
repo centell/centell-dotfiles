@@ -25,8 +25,14 @@ if [ -d ~/.agents ]; then
         rsync -a --delete ~/.agents/rules/ rules/
         echo -e "${GREEN}✓ rules 백업 완료${NC}"
     fi
+    # personas 백업
+    if [ -d ~/.agents/personas ]; then
+        mkdir -p personas
+        rsync -a --delete ~/.agents/personas/ personas/
+        echo -e "${GREEN}✓ personas 백업 완료${NC}"
+    fi
     echo "  백업된 항목:"
-    ls -1d skills rules 2>/dev/null | sed 's/^/    - /'
+    ls -1d skills rules personas 2>/dev/null | sed 's/^/    - /'
 else
     echo "⚠ ~/.agents/ 가 없습니다"
 fi
@@ -39,6 +45,11 @@ mkdir -p configs
 if [ -f ~/.claude/settings.local.json ]; then
     cp ~/.claude/settings.local.json configs/claude-settings.local.json
     echo -e "${GREEN}✓ Claude 설정 백업 완료${NC}"
+fi
+
+if [ -f ~/.claude/CLAUDE.md ]; then
+    cp ~/.claude/CLAUDE.md configs/CLAUDE.md
+    echo -e "${GREEN}✓ CLAUDE.md 백업 완료${NC}"
 fi
 
 if [ -f ~/.cursor/settings.json ]; then
@@ -60,7 +71,8 @@ echo ""
 echo "백업된 파일:"
 echo "  - skills/   (~/.agents/skills)"
 echo "  - rules/    (~/.agents/rules)"
-echo "  - configs/"
+echo "  - personas/ (~/.agents/personas)"
+echo "  - configs/  (settings + CLAUDE.md)"
 echo ""
 echo "Git 커밋 추천:"
 echo "  git add ."
