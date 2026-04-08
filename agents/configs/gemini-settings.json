@@ -26,5 +26,8 @@
       "enabled": true,
       "maxAge": "30d"
     }
+  },
+  "ide": {
+    "hasSeenNudge": true
   }
 }
