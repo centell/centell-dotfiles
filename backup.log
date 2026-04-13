@@ -3820,3 +3820,79 @@ Git 커밋 추천:
   git push
 
 [2026-04-11 17:00:01] 변경사항 감지
+[main 411300b] chore(auto-backup): automated backup at 2026-04-11 17:00:01
+ 4 files changed, 251 insertions(+)
+ create mode 100644 agents/skills/spritecook-animate-assets/SKILL.md
+ create mode 100644 agents/skills/spritecook-generate-sprites/SKILL.md
+ create mode 100644 agents/skills/spritecook-workflow-essentials/SKILL.md
+[2026-04-11 17:00:01] 커밋 완료
+To github.com-centell:centell/centell-dotfiles.git
+   8a43909..411300b  main -> main
+[2026-04-11 17:00:01] 푸시 완료 - 자동 백업 성공
+======================================
+[2026-04-13 17:00:00] 자동 백업 시작
+╔════════════════════════════════════════════════════════╗
+║  Centell Dotfiles - 백업 스크립트                     ║
+╚════════════════════════════════════════════════════════╝
+
+[0;34m[1/4] AI Agents 백업...[0m
+╔════════════════════════════════════════════════════════╗
+║  AI Agent - 백업 스크립트                             ║
+╚════════════════════════════════════════════════════════╝
+
+[0;34m[1/2] ~/.agents 백업...[0m
+[0;32m✓ skills 백업 완료[0m
+[0;32m✓ rules 백업 완료[0m
+[0;32m✓ personas 백업 완료[0m
+  백업된 항목:
+    - personas
+    - rules
+    - skills
+
+[0;34m[2/2] 설정 파일 백업...[0m
+[0;32m✓ Claude 설정 백업 완료[0m
+[0;32m✓ CLAUDE.md 백업 완료[0m
+[0;32m✓ Gemini 설정 백업 완료[0m
+
+╔════════════════════════════════════════════════════════╗
+║  ✨ 백업 완료!                                        ║
+╚════════════════════════════════════════════════════════╝
+
+백업된 파일:
+  - skills/   (~/.agents/skills)
+  - rules/    (~/.agents/rules)
+  - personas/ (~/.agents/personas)
+  - configs/  (settings + CLAUDE.md)
+
+Git 커밋 추천:
+  git add .
+  git commit -m 'Update AI agent backup'
+  git push
+
+[0;32m✓ AI Agents 백업 완료[0m
+
+[0;34m[2/4] Zsh 백업...[0m
+[0;32m✓ .zshrc 백업 완료[0m
+
+[0;34m[3/4] Git 백업...[0m
+[0;32m✓ .gitconfig 백업 완료[0m
+
+[0;34m[4/4] Vim 백업...[0m
+
+╔════════════════════════════════════════════════════════╗
+║  ✨ 백업 완료!                                        ║
+╚════════════════════════════════════════════════════════╝
+
+백업된 파일:
+  - agents/
+  - zsh/.zshrc
+  - git/.gitconfig
+  - vim/.vimrc
+
+Git 커밋 추천:
+  cd /Users/devcjkim/centell-dotfiles
+  git add .
+  git commit -m 'Update dotfiles'
+  git push
+
+[2026-04-13 17:00:00] 변경사항 감지
