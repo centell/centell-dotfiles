@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "additionalDirectories": [
+      "/Users/devcjkim/.agents",
+      "/Users/devcjkim/.claude",
+      "/Users/devcjkim/Documents/Workspace"
+    ],
+    "allow": [
+      "Read",
+      "Write(/Users/devcjkim/.agents/personas/**)",
+      "Write(/Users/devcjkim/.claude/projects/**)",
+      "Write(/Users/devcjkim/.claude/channels/**)",
+      "Read(/Users/devcjkim/Documents/Workspace/**)",
+      "Edit(/Users/devcjkim/Documents/Workspace/**)",
+      "Write(/Users/devcjkim/Documents/Workspace/**)",
+      "Bash(git *)",
+      "mcp__persona-memory__get_important_memories",
+      "mcp__persona-memory__save_memory",
+      "mcp__persona-memory__update_memory",
+      "mcp__persona-memory__search_memories",
+      "mcp__persona-memory__get_related_memories",
+      "mcp__persona-memory__list_memories",
+      "mcp__persona-memory__get_memories_by_tag",
+      "mcp__persona-memory__delete_memory",
+      "mcp__persona-memory__start_session",
+      "mcp__persona-memory__end_session",
+      "mcp__persona-memory__get_session_memories",
+      "mcp__persona-memory__get_node",
+      "mcp__persona-memory__update_session",
+      "mcp__persona-memory__get_session_context",
+      "mcp__persona-memory__get_actionable",
+      "mcp__persona-memory__add_tags",
+      "mcp__persona-memory__list_tags",
+      "mcp__plugin_telegram_telegram__reply",
+      "mcp__plugin_telegram_telegram__react",
+      "mcp__plugin_telegram_telegram__edit_message",
+      "WebFetch(*)",
+      "WebSearch(*)",
+      "Bash(echo $PPID)",
+      "Write(/Users/devcjkim/.claude/active_persona_*)",
+      "Bash(rm -f /Users/devcjkim/.claude/active_persona_*)",
+      "Bash(npm *)",
+      "Bash(npx *)",
+      "Bash(node *)",
+      "Bash(tsx *)",
+      "Bash(ls *)",
+      "Bash(find *)",
+      "Bash(grep *)",
+      "Bash(cat *)",
+      "Bash(mkdir *)",
+      "Bash(cp *)",
+      "Bash(mv *)"
+    ]
+  },
+  "model": "opusplan",
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/user-prompt-submit.sh"
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/pre-compact.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/stop.sh"
+          }
+        ]
+      }
+    ]
+  },
+  "enabledPlugins": {
+    "telegram@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true,
+    "commit-commands@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true
+  },
+  "feedbackSurveyState": {
+    "lastShownTime": 1754375392884
+  },
+  "mcpServers": {},
+  "statusLine": {
+    "type": "command",
+    "command": "bash ~/.claude/statusline-command.sh"
+  }
+}

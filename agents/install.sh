@@ -50,9 +50,14 @@ echo ""
 echo -e "${BLUE}[2/4] 설정 파일 복사...${NC}"
 mkdir -p ~/.claude ~/.cursor ~/.gemini ~/.opencode
 
+if [ -f "configs/claude-settings.json" ]; then
+    cp configs/claude-settings.json ~/.claude/settings.json
+    echo -e "${GREEN}✓ Claude settings.json 복사 완료${NC}"
+fi
+
 if [ -f "configs/claude-settings.local.json" ]; then
     cp configs/claude-settings.local.json ~/.claude/settings.local.json
-    echo -e "${GREEN}✓ Claude 설정 복사 완료${NC}"
+    echo -e "${GREEN}✓ Claude settings.local.json 복사 완료${NC}"
 fi
 
 if [ -f "configs/CLAUDE.md" ]; then

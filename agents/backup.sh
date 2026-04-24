@@ -42,9 +42,14 @@ echo ""
 echo -e "${BLUE}[2/2] 설정 파일 백업...${NC}"
 mkdir -p configs
 
+if [ -f ~/.claude/settings.json ]; then
+    cp ~/.claude/settings.json configs/claude-settings.json
+    echo -e "${GREEN}✓ Claude settings.json 백업 완료${NC}"
+fi
+
 if [ -f ~/.claude/settings.local.json ]; then
     cp ~/.claude/settings.local.json configs/claude-settings.local.json
-    echo -e "${GREEN}✓ Claude 설정 백업 완료${NC}"
+    echo -e "${GREEN}✓ Claude settings.local.json 백업 완료${NC}"
 fi
 
 if [ -f ~/.claude/CLAUDE.md ]; then
