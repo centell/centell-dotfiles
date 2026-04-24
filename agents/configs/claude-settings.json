@@ -9,6 +9,8 @@
     "allow": [
       "Read",
       "Write(/Users/devcjkim/.agents/personas/**)",
+      "Write(/Users/devcjkim/.agents/rules/**)",
+      "Write(/Users/devcjkim/.agents/skills/**)",
       "Write(/Users/devcjkim/.claude/projects/**)",
       "Write(/Users/devcjkim/.claude/channels/**)",
       "Read(/Users/devcjkim/Documents/Workspace/**)",

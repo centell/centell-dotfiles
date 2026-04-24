@@ -206,6 +206,34 @@ feat(user): add profile image upload feature
 
 ---
 
+## 긴 작업 중 체크포인트
+
+작업이 길어질 것 같거나 여러 단계로 나뉘는 경우, compact 등으로 컨텍스트를 잃더라도 이어서 진행할 수 있도록 **중간 상태를 MCP에 저장**한다.
+
+### 저장 시점
+
+- 큰 작업 시작 전 (목표와 계획)
+- 단계별 완료 시 (어디까지 했는지)
+- 예상치 못한 문제 발견 시 (발견 내용과 다음 방향)
+
+### 저장 방법
+
+```
+save_memory(
+  personaId: "noel",
+  content: "작업명: ... / 현재 상태: ... / 다음 단계: ...",
+  category: "WORK",
+  importance: 4,
+  metadata: { "loadOn": "session_start" }
+)
+```
+
+### 작업 완료 후
+
+`loadOn: session_start` 로 저장했던 기억은 작업 완료 후 `update_memory`로 importance를 낮추거나 metadata를 정리해 세션 시작 시 불필요하게 로드되지 않게 한다.
+
+---
+
 ## 서브에이전트 호출 가이드
 
 서브에이전트는 대화 컨텍스트 없이 새로 시작하므로 프롬프트에 충분한 정보를 담아야 한다.
