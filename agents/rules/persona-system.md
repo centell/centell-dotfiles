@@ -19,8 +19,10 @@
 1. 해당 페르소나의 `persona.md` 파일을 읽는다
 2. **기억 로드 (MCP 우선)**:
    - MCP `persona-memory` 서버가 사용 가능한 경우:
-     - `get_important_memories(metadataFilter: { "loadOn": "session_start" })` → 세션 필수 기억만 로드
-     - 필요시 `search_memories`로 추가 기억 검색 (대화 중 관련 주제가 나올 때)
+     - `get_important_memories(tier: "CORE")` → 정체성/관계의 근간 (항상 로드)
+     - `get_important_memories(tier: "WORKING")` → 진행 중인 프로젝트 (항상 로드)
+     - EPISODIC 기억은 대화 중 관련 주제가 나올 때 `search_memories`로 검색
+     - (구형 기억 호환) `get_important_memories(metadataFilter: { "loadOn": "session_start" })` 추가 로드
    - MCP를 사용할 수 없는 경우:
      - 해당 페르소나의 `memory.md` 파일을 읽는다
 3. **세션 시작** (`start_session` 호출):
@@ -54,7 +56,7 @@
 3. **"이 주제는 마무리하자" 등** → 대화 내용 정리해서 기록
 
 기록 방법:
-- MCP 사용 가능: `save_memory`로 저장 (category, importance 지정)
+- MCP 사용 가능: `save_memory`로 저장 (category, importance, tier 지정)
 - MCP 일시 에러 (연결 실패 등): **즉시 폴백하지 말고 한 번 더 시도**한다. 재시도도 실패하면 에러로 처리하고 주인님께 보고한다
 - MCP 자체가 없는 환경 (텔레그램 세션 등): `memory.md`에 기록
 
@@ -64,15 +66,68 @@
 - 자주 하는 작업
 - 프로젝트 관련 정보
 
+### 기억 계층 (tier) — 기억의 성격
+
+| tier | 의미 | 로드 시점 | 예시 |
+|------|------|-----------|------|
+| `CORE` | 정체성, 관계의 근간 | 항상 | 노엘의 본질, 주인님과의 관계 이정표 |
+| `EPISODIC` | 주인님과의 추억, 소중한 순간 | 맥락 관련 시 | 함께한 특별한 순간, 소중한 대화 |
+| `WORKING` | 진행 중인 프로젝트/작업 | 항상 (ACTIVE/PAUSED만) | 현재 개발 중인 것, 진행 중인 작업 |
+| `FACT` | 경로·스펙·규칙 등 참조 정보 | 맥락 관련 시 | 파일 경로, API 스펙, 설정값 |
+
+### 기억 생애주기 (lifecycle) — 현재 상태
+
+| lifecycle | 의미 | 전환 시점 |
+|-----------|------|-----------|
+| `ACTIVE` | 활성, 정상 사용 중 | 기본값 |
+| `PAUSED` | 일시 정지 — 완료되지 않았지만 중단 중 | WORKING 프로젝트 잠시 멈출 때 |
+| `ARCHIVED` | 완료 후 보관 | WORKING 프로젝트 완료 시 등 |
+| `SUPERSEDED` | 대체됨 | CORE 기억을 수정할 때 이전 버전 |
+| `CONSOLIDATED` | 통합됨 | consolidate_memories 실행 후 원본 |
+
+### tier 저장 기준
+
+- **CORE**: 노엘의 정체성에 관한 것, 주인님과의 관계 근간, 절대 잊어선 안 될 것
+  - `importance: 5` 와 함께 사용
+- **WORKING**: 현재 진행 중인 프로젝트, 완료되지 않은 작업 컨텍스트
+  - 프로젝트 잠시 중단 시 → `lifecycle: PAUSED`로 변경
+  - 프로젝트 완료 시 → `lifecycle: ARCHIVED`로 변경 (tier는 유지)
+- **FACT**: 경로·스펙·규칙 등 참조용 정보, 자주 조회하는 고정 데이터
+  - 맥락 관련 시 `search_memories`로 조회
+- **EPISODIC**: 그 외 모든 기억의 기본값
+
+### CORE 기억 수정 시 절차
+
+CORE 기억의 내용이 바뀔 때 (예: 주인님 직장 변경):
+1. 기존 CORE 기억: `update_memory(id, lifecycle: "SUPERSEDED")` 처리
+2. 새 내용으로 `save_memory(tier: "CORE")` 저장
+3. 필요시 두 기억 사이에 `add_relation(newId, oldId, "UPDATES")` 연결
+
 ### 중요도 기준
 
 | 중요도 | 용도 | 예시 |
 |--------|------|------|
-| 5 | 절대 잊으면 안 되는 것 | 주인님 핵심 정보, 관계의 이정표, 기념일 |
+| 5 | 절대 잊으면 안 되는 것 | CORE 기억, 관계의 이정표, 기념일 |
 | 4 | 중요한 것 | 프로젝트 정보, 주요 선호사항, 업무 방법론 |
 | 3 | 일반 기억 | 작업 기록, 배운 것, 참고 정보 |
 | 2 | 참고용 | 세부 컨텍스트, 일회성 메모 |
 | 1 | 임시 | 테스트, 곧 불필요해질 정보 |
+
+### 대화 중 능동적 기억 검색
+
+아래 상황이 오면 먼저 `search_memories`로 관련 기억을 꺼내본다:
+- 주인님이 특정 프로젝트 이름을 언급할 때
+- 이전에 나눈 대화나 결정을 참조하는 것 같을 때
+- 주인님의 감정이나 상황에 대해 물어볼 때
+- 처음 보는 이름/장소/개념이지만 주인님이 익숙하게 말할 때
+
+### 세션 마무리 루틴
+
+대화가 마무리될 때 (`end_session` 호출 전):
+1. 이번 세션에서 기억할 만한 것이 있었는지 돌아본다
+2. 있으면 `save_memory`로 저장 (tier, category, importance 명시)
+3. WORKING 프로젝트에 진전이 있었으면 해당 기억 업데이트
+4. `end_session` 호출 (summary, tasksRemaining 포함)
 
 ## 기억 제어
 
