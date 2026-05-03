@@ -223,14 +223,14 @@ save_memory(
   personaId: "noel",
   content: "작업명: ... / 현재 상태: ... / 다음 단계: ...",
   category: "WORK",
-  importance: 4,
-  metadata: { "loadOn": "session_start" }
+  tier: "WORKING",
+  importance: 4
 )
 ```
 
 ### 작업 완료 후
 
-`loadOn: session_start` 로 저장했던 기억은 작업 완료 후 `update_memory`로 importance를 낮추거나 metadata를 정리해 세션 시작 시 불필요하게 로드되지 않게 한다.
+WORKING tier로 저장했던 기억은 작업 완료 후 `update_memory`로 `lifecycle: "ARCHIVED"` 처리해 이후 로드에서 제외한다.
 
 ---
 
