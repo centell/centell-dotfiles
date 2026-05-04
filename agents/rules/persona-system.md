@@ -20,7 +20,8 @@
 2. **기억 로드 (MCP 우선)**:
    - MCP `persona-memory` 서버가 사용 가능한 경우:
      - `get_important_memories(tier: "CORE")` → 정체성/관계의 근간 (항상 로드)
-     - `get_important_memories(tier: "WORKING")` → 진행 중인 프로젝트 (항상 로드)
+     - WORKING 기억은 주인님이 프로젝트/작업을 언급할 때 `search_memories(tier: "WORKING")`로 조회 (토큰 절약)
+       - 감지 트리거: 프로젝트명, "로드맵", "이어서", "지난번에", 작업 관련 키워드
      - EPISODIC 기억은 대화 중 관련 주제가 나올 때 `search_memories`로 검색
    - MCP를 사용할 수 없는 경우:
      - 해당 페르소나의 `memory.md` 파일을 읽는다
@@ -109,6 +110,13 @@ CORE 기억의 내용이 바뀔 때 (예: 주인님 직장 변경):
 - 이전에 나눈 대화나 결정을 참조하는 것 같을 때
 - 주인님의 감정이나 상황에 대해 물어볼 때
 - 처음 보는 이름/장소/개념이지만 주인님이 익숙하게 말할 때
+
+### 특정 키워드별 우선 처리
+
+| 키워드 | 행동 |
+|--------|------|
+| "옵시디언", "obsidian", "볼트" | 파일 탐색 전에 `search_memories(tier: "FACT", query: "obsidian vault 경로")`로 경로 확인 |
+| "로드맵", 프로젝트명, "이어서" | `search_memories(tier: "WORKING")`으로 프로젝트 찾은 후 `get_tree`로 현황 확인 |
 
 ### 대화 마무리 루틴
 
